@@ -43,6 +43,7 @@ episodes %>%
   facet_grid(. ~ series_name) +
   labs(title = "Rating das Temporadas")
 ```
+
 ## Questão 1: Qual a melhor temporada de cada série analisada?
 
   Considerando como parâmetro de qualidade o rating para cada temporada, observando o gráfico temos que para a série Friends a última temporada tem o maior rating, sendo, dentre todas as temporadas, a melhor. Já para That '70s Show temos que sua melhor temporada é a primeira.
