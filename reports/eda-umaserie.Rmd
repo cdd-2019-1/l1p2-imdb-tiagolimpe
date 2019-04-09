@@ -32,13 +32,7 @@ episodes = all_series %>%
 glimpse(episodes)
 ```
 
-## Questão 1: Qual a melhor temporada de cada série analisada?
-
-  Considerando como parâmetro de qualidade o rating para cada temporada, observando o gráfico temos que para a série Friends a última temporada tem o maior rating, sendo, dentre todas as temporadas, a melhor. Já para That '70s Show temos que sua melhor temporada é a primeira.
-  
-## Questão 2: Qual a pior temporada de cada série analisada?
-
-  Como na questão anterior iremos considerar como parâmetro de qualidade o rating para cada temporada, observando o gráfico temos que para a série Friends a penúltima temporada tem o menor rating, sendo, dentre todas as temporadas, a pior da série. Para That '70s Show observamos que a temporada com menor rating é a última.
+## Analisando o rating por temporada
 
 ```{r}
 episodes %>% 
@@ -49,8 +43,18 @@ episodes %>%
   facet_grid(. ~ series_name) +
   labs(title = "Rating das Temporadas")
 ```
+## Questão 1: Qual a melhor temporada de cada série analisada?
+
+  Considerando como parâmetro de qualidade o rating para cada temporada, observando o gráfico temos que para a série Friends a última temporada tem o maior rating, sendo, dentre todas as temporadas, a melhor. Já para That '70s Show temos que sua melhor temporada é a primeira.
+  
+## Questão 2: Qual a pior temporada de cada série analisada?
+
+  Como na questão anterior iremos considerar como parâmetro de qualidade o rating para cada temporada, observando o gráfico temos que para a série Friends a penúltima temporada tem o menor rating, sendo, dentre todas as temporadas, a pior da série. Para That '70s Show observamos que a temporada com menor rating é a última.
+
+## Algumas observações
 
   A partir desses dados podemos observar se a série a qual estamos acompanhando tende a piorar ou melhorar ao longo das temporadas. No caso de Friends, vemos que por mais que a primeira seja uma das piores avaliadas, podemos prosseguir assistindo pois sua avaliação irá aumentar em outras temporadas e na última temos os melhores episódios em geral. O oposto acontece para That '70s Show, onde temos a melhor avaliação já na primeira temporada mas que, na dúvida de usar o tempo para acompanhar tal série, podemos observar que ela piora com o passar das temporadas.
+
 
 
 ## Pergunta a partir da análise acima: é possível saber qual a melhor série dentre as duas?
@@ -59,7 +63,7 @@ Não necessariamente, pois o gosto é subjetivo e os dados não estão bem repre
 
 ## Outra pergunta a partir da análise acima: o melhor episódio da série (levando em consideração a qualidade pelo maior rating) está na melhor temporada?
 
-Não, podemos observar no gráfico a seguir que o melhor episódio de Friends está localizado próximo ao episódio 100, isto equivale a quarta temporada. E a melhor temporada de Friends é a última. O mesmo para That '70s Show, onde podemos ver no gráfico a seguir que o melhor episódio é localizado nos últimos episódios, isto é, na última temporada. Tal temporada é a pior avaliada da série. Então não, o melhor episódio não está necessariamente na melhor temporada.
+Não necessariamente, vamos observar no gráfico a seguir:
 
 ```{r}
 episodes %>% 
@@ -71,3 +75,4 @@ episodes %>%
   labs(title = "Rating dos Episódios")
 ```
 
+O melhor episódio de Friends está localizado próximo ao episódio 100, isto equivale a quarta ou quinta temporada. E a melhor temporada de Friends é a última. O mesmo para That '70s Show, onde podemos ver no gráfico que o melhor episódio é localizado nos últimos episódios, isto é, na última temporada. Tal temporada é a pior avaliada da série. Então podemos concluir que o melhor episódio não está necessariamente na melhor temporada.
