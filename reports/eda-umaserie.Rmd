@@ -18,7 +18,7 @@ theme_set(theme_bw())
 
 ## Objetivo
 
-Avaliar os dados das séries Friends e That '70s Show para responder algumas questões propostas antes, das quais foram escolhidas as seguintes: "3. Qual a melhor temporada de cada série analisada?" e "4. Qual a pior temporada da série analisada?"
+Avaliar os dados das séries Friends e That '70s Show para responder algumas questões propostas antes, das quais foram escolhidas as seguintes: "Qual a melhor temporada de cada série analisada?" e "Qual a pior temporada da série analisada?"
 
 Ler os dados:
 
@@ -32,11 +32,11 @@ episodes = all_series %>%
 glimpse(episodes)
 ```
 
-## Questão 3: Qual a melhor temporada de cada série analisada?
+## Questão 1: Qual a melhor temporada de cada série analisada?
 
   Considerando como parâmetro de qualidade o rating para cada temporada, observando o gráfico temos que para a série Friends a última temporada tem o maior rating, sendo, dentre todas as temporadas, a melhor. Já para That '70s Show temos que sua melhor temporada é a primeira.
   
-## Questão 4: Qual a pior temporada de cada série analisada?
+## Questão 2: Qual a pior temporada de cada série analisada?
 
   Como na questão anterior iremos considerar como parâmetro de qualidade o rating para cada temporada, observando o gráfico temos que para a série Friends a penúltima temporada tem o menor rating, sendo, dentre todas as temporadas, a pior da série. Para That '70s Show observamos que a temporada com menor rating é a última.
 
