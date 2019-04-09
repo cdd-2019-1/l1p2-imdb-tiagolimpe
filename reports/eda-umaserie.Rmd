@@ -1,11 +1,11 @@
 ---
-title: "EDA Stranger Things"
+title: "EDA IMDB Series"
 output:
-  html_notebook:
-    toc: yes
-    toc_float: yes
   html_document:
     df_print: paged
+    toc: yes
+    toc_float: yes
+  html_notebook:
     toc: yes
     toc_float: yes
 ---
@@ -18,7 +18,7 @@ theme_set(theme_bw())
 
 ## Objetivo
 
-Explorar as avaliações dos episódios da série Stranger Things. Houve duas temporadas: quais foram os melhores episódios? A melhor temporada?
+Avaliar os dados das séries Friends e That '70s Show para responder algumas questões propostas antes, das quais foram escolhidas as seguintes: "3. Qual a melhor temporada de cada série analisada?" e "4. Qual a pior temporada da série analisada?"
 
 Ler os dados:
 
@@ -27,78 +27,47 @@ all_series = read_csv(here("data/series_from_imdb.csv.zip"),
                       col_types = "ccdcdcdddddddddddd") 
 
 glimpse(all_series)
-
 episodes = all_series %>% 
-    filter(series_name == "Stranger Things") 
-
+    filter(series_name %in% c("Friends", "That '70s Show")) 
 glimpse(episodes)
 ```
 
-Estamos interessados nas variáveis `UserRating` e `UserVotes`, principalmente.
+## Questão 3: Qual a melhor temporada de cada série analisada?
 
-## Quais os valores que existem de notas? 
-
-```{r}
-episodes %>% 
-  mutate(season = as.character(season)) %>% 
-  ggplot(mapping = aes(x = season, y = UserRating)) + 
-  geom_point()
+  Considerando como parâmetro de qualidade o rating para cada temporada, observando o gráfico temos que para a série Friends a última temporada tem o maior rating, sendo, dentre todas as temporadas, a melhor. Já para That '70s Show temos que sua melhor temporada é a primeira.
   
-```
+## Questão 4: Qual a pior temporada de cada série analisada?
 
-E por faixas de valor?
-
-```{r}
-episodes %>% 
-  mutate(season = as.character(season)) %>% 
-  ggplot(mapping = aes(x = UserRating)) + 
-  geom_histogram(binwidth = 0.5, 
-                 boundary = 6,
-                 color = "black", 
-                 fill = "salmon") + 
-  geom_rug()
-
-```
-
-## Quais valores existem para número de votos?
+  Como na questão anterior iremos considerar como parâmetro de qualidade o rating para cada temporada, observando o gráfico temos que para a série Friends a penúltima temporada tem o menor rating, sendo, dentre todas as temporadas, a pior da série. Para That '70s Show observamos que a temporada com menor rating é a última.
 
 ```{r}
 episodes %>% 
-  mutate(season = as.character(season)) %>% 
-  ggplot(mapping = aes(x = season, y = UserVotes)) + 
-  geom_point()
+  group_by(series_name, season) %>%
+  summarize(rating = mean(UserRating)) %>% 
+  ggplot(aes(x = factor(season, levels = seq(1,10,1)), y = rating)) +
+  geom_point() +
+  facet_grid(. ~ series_name) +
+  labs(title = "Rating das Temporadas")
 ```
+
+  A partir desses dados podemos observar se a série a qual estamos acompanhando tende a piorar ou melhorar ao longo das temporadas. No caso de Friends, vemos que por mais que a primeira seja uma das piores avaliadas, podemos prosseguir assistindo pois sua avaliação irá aumentar em outras temporadas e na última temos os melhores episódios em geral. O oposto acontece para That '70s Show, onde temos a melhor avaliação já na primeira temporada mas que, na dúvida de usar o tempo para acompanhar tal série, podemos observar que ela piora com o passar das temporadas.
+
+
+## Pergunta a partir da análise acima: é possível saber qual a melhor série dentre as duas?
+
+Não necessariamente, pois o gosto é subjetivo e os dados não estão bem representados. Mas levando em consideração o rating médio de cada temporada, no geral podemos observar que Friends é uma série mais bem avaliada e todas as suas temporadas variam numa faixa acima de 8. Enquanto That '70s Show tem apenas uma temporada acima de 8 e todas as outras vão decaindo abaixo de 8.
+
+## Outra pergunta a partir da análise acima: o melhor episódio da série (levando em consideração a qualidade pelo maior rating) está na melhor temporada?
+
+Não, podemos observar no gráfico a seguir que o melhor episódio de Friends está localizado próximo ao episódio 100, isto equivale a quarta temporada. E a melhor temporada de Friends é a última. O mesmo para That '70s Show, onde podemos ver no gráfico a seguir que o melhor episódio é localizado nos últimos episódios, isto é, na última temporada. Tal temporada é a pior avaliada da série. Então não, o melhor episódio não está necessariamente na melhor temporada.
 
 ```{r}
 episodes %>% 
-  mutate(season = as.character(season)) %>% 
-  ggplot(mapping = aes(x = UserVotes)) + 
-  geom_histogram(binwidth = 1000, 
-                 boundary = 10000,
-                 color = "black", 
-                 fill = "darkorange") + 
-  geom_rug()
+  group_by(series_name, season, series_ep) %>%
+  summarize(rating = mean(UserRating)) %>% 
+  ggplot(aes(x = series_ep, y = rating)) +
+  geom_point() +
+  facet_grid(. ~ series_name) +
+  labs(title = "Rating dos Episódios")
 ```
 
-Temos um episódio bem mais avaliado que os demais.
-
-
-## Qual é esse episódio tão mal avaliado?
-
-```{r}
-episodes %>% 
-  mutate(season = as.character(season)) %>% 
-  ggplot(mapping = aes(x = series_ep, y = UserRating, color = season)) + 
-  geom_line()
-```
-
-E qual aquele com mais avaliações?
-
-```{r}
-episodes %>% 
-  mutate(season = as.character(season)) %>% 
-  ggplot(mapping = aes(x = series_ep, y = UserVotes, color = season)) + 
-  geom_line()
-```
-
-Alguma coisa aconteceu no episódio 15...
